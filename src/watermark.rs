@@ -1,8 +1,8 @@
-use num_enum::FromPrimitive;
+use num_enum::{FromPrimitive, IntoPrimitive};
 use serde_repr::{Deserialize_repr, Serialize_repr};
 
 #[repr(u8)]
-#[derive(Deserialize_repr, Serialize_repr, Clone, Copy, PartialEq, Eq, FromPrimitive)]
+#[derive(Deserialize_repr, Serialize_repr, Clone, Copy, PartialEq, Eq, FromPrimitive, IntoPrimitive)]
 pub enum MiniWatermark {
     #[default]
     Unknown = 0,
