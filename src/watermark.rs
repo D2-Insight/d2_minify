@@ -1,6 +1,10 @@
-#[derive(serde_repr::Deserialize_repr, serde_repr::Serialize_repr, Clone, Copy, PartialEq, Eq)]
+use num_enum::FromPrimitive;
+use serde_repr::{Deserialize_repr, Serialize_repr};
+
 #[repr(u8)]
+#[derive(Deserialize_repr, Serialize_repr, Clone, Copy, PartialEq, Eq, FromPrimitive)]
 pub enum MiniWatermark {
+    #[default]
     Unknown = 0,
     Dawning = 1,
     FOTL = 2,

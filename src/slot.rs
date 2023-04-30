@@ -1,7 +1,11 @@
+use num_enum::FromPrimitive;
+use serde_repr::{Deserialize_repr, Serialize_repr};
+
 ///This is used to convert a u32 "equipmentSlotTypeHash" to and from a u8 enum to save space.
 #[repr(u8)]
-#[derive(serde_repr::Deserialize_repr, serde_repr::Serialize_repr, Clone, Copy, PartialEq, Eq)]
+#[derive(Deserialize_repr, Serialize_repr, Clone, Copy, PartialEq, Eq, FromPrimitive)]
 pub enum MiniSlot {
+    #[default]
     Unknown = 0,
     KineticWeapons = 1,
     EnergyWeapons = 2,
