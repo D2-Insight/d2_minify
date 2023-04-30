@@ -1,7 +1,7 @@
 use num_enum::FromPrimitive;
 use serde_repr::{Deserialize_repr, Serialize_repr};
 #[repr(u8)]
-#[derive(Deserialize_repr, Serialize_repr, Clone, Copy, PartialEq, Eq, FromPrimitive)]
+#[derive(Deserialize_repr, Serialize_repr, Clone, Copy, PartialEq, Eq, FromPrimitive, Hash)]
 pub enum MiniStat {
     #[default]
     Unknown = 0,
