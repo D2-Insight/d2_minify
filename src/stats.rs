@@ -3,6 +3,7 @@ use serde_repr::{Deserialize_repr, Serialize_repr};
 #[repr(u8)]
 #[derive(Deserialize_repr, Serialize_repr, Clone, Copy, PartialEq, Eq, IntoPrimitive, Hash)]
 pub enum MiniStat {
+    NoName = 0,
     Accuracy = 1,
     AimAssist = 2,
     Airborne = 3,
@@ -74,6 +75,9 @@ impl TryFrom<u32> for MiniStat {
             2837207746 => Self::SwingSpeed,
             2523465841 => Self::Velocity,
             3555269338 => Self::Zoom,
+            //Ew :(
+            1885944937 | 953546184 | 2299076437 | 2755327046 | 3291498658 | 3291498656
+            | 3123546339 | 3291498659 | 3291498661 | 3409715177 | 3784226438 => Self::NoName,
             n => return Err(format!("Unknown Stat Hash: {}\n", n)),
         })
     }
@@ -114,6 +118,7 @@ impl From<MiniStat> for Option<u32> {
             MiniStat::SwingSpeed => 2837207746,
             MiniStat::Velocity => 2523465841,
             MiniStat::Zoom => 3555269338,
+            MiniStat::NoName => return None,
         })
     }
 }

@@ -20,9 +20,9 @@ pub enum MiniSlot {
     Subclass = 13,
 }
 
-impl From<MiniSlot> for Option<u32> {
+impl From<MiniSlot> for u32 {
     fn from(value: MiniSlot) -> Self {
-        Some(match value {
+        match value {
             MiniSlot::KineticWeapons => 1498876634,
             MiniSlot::EnergyWeapons => 2465295065,
             MiniSlot::PowerWeapons => 953998645,
@@ -36,7 +36,7 @@ impl From<MiniSlot> for Option<u32> {
             MiniSlot::Ships => 284967655,
             MiniSlot::ClanBanners => 4292445962,
             MiniSlot::Subclass => 3284755031,
-        })
+        }
     }
 }
 
