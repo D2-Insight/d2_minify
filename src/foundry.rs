@@ -15,6 +15,7 @@ pub enum MiniFoundry {
     Daito = 6,
     TexMechanica = 7,
     FieldForged = 8,
+    NoFoundry = 9,
 }
 
 impl From<MiniFoundry> for Option<String> {
@@ -28,7 +29,7 @@ impl From<MiniFoundry> for Option<String> {
             MiniFoundry::Daito => "26c980259713e164aec34002b4c76dca",
             MiniFoundry::TexMechanica => "08d0631148d6e0bdc202c5ecab25f781",
             MiniFoundry::FieldForged => "2b08717bae25bd46dffb7efba66a2371",
-            MiniFoundry::Unknown => return None,
+            MiniFoundry::Unknown | MiniFoundry::NoFoundry => return None,
         };
         Some(format!(
             "https://www.bungie.net/common/destiny2_content/icons/{}.png",
@@ -37,16 +38,22 @@ impl From<MiniFoundry> for Option<String> {
     }
 }
 
-impl From<String> for MiniFoundry {
-    fn from(value: String) -> Self {
-        if value.len() != 67
-            || &value[0..=30] != "/common/destiny2_content/icons/"
-            || &value[63..=66] != ".png"
+impl From<Option<String>> for MiniFoundry {
+    fn from(value: Option<String>) -> Self {
+        let buffer = match value {
+            Some(x) => x,
+            None => {
+                return MiniFoundry::NoFoundry;
+            }
+        };
+        if buffer.len() != 67
+            || &buffer[0..=30] != "/common/destiny2_content/icons/"
+            || &buffer[63..=66] != ".png"
         {
             return MiniFoundry::Unknown;
         }
 
-        match &value[31..=62] {
+        match &buffer[31..=62] {
             "e9fcd73e969a9295c3ab4ee5743893c2" => MiniFoundry::Suros,
             "33679ff3935b6b925f007181f0959d84" => MiniFoundry::Veist,
             "36de329ebf19e58fa0aa90f6828edd57" => MiniFoundry::Omolon,
