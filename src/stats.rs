@@ -1,12 +1,8 @@
-use num_enum::{FromPrimitive, IntoPrimitive};
+use num_enum::IntoPrimitive;
 use serde_repr::{Deserialize_repr, Serialize_repr};
 #[repr(u8)]
-#[derive(
-    Deserialize_repr, Serialize_repr, Clone, Copy, PartialEq, Eq, FromPrimitive, IntoPrimitive, Hash,
-)]
+#[derive(Deserialize_repr, Serialize_repr, Clone, Copy, PartialEq, Eq, IntoPrimitive, Hash)]
 pub enum MiniStat {
-    #[default]
-    Unknown = 0,
     Accuracy = 1,
     AimAssist = 2,
     Airborne = 3,
@@ -41,9 +37,11 @@ pub enum MiniStat {
     Zoom = 32,
 }
 
-impl From<u32> for MiniStat {
-    fn from(_value: u32) -> Self {
-        match _value {
+impl TryFrom<u32> for MiniStat {
+    type Error = String;
+
+    fn try_from(_value: u32) -> Result<Self, Self::Error> {
+        Ok(match _value {
             1591432999 => Self::Accuracy,
             1345609583 => Self::AimAssist,
             2714457168 => Self::Airborne,
@@ -76,8 +74,8 @@ impl From<u32> for MiniStat {
             2837207746 => Self::SwingSpeed,
             2523465841 => Self::Velocity,
             3555269338 => Self::Zoom,
-            _ => Self::Unknown,
-        }
+            n => return Err(format!("Unknown Stat Hash: {}\n", n)),
+        })
     }
 }
 
@@ -116,7 +114,6 @@ impl From<MiniStat> for Option<u32> {
             MiniStat::SwingSpeed => 2837207746,
             MiniStat::Velocity => 2523465841,
             MiniStat::Zoom => 3555269338,
-            MiniStat::Unknown => return None,
         })
     }
 }

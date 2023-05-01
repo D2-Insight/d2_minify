@@ -1,14 +1,10 @@
-use num_enum::{FromPrimitive, IntoPrimitive};
+use num_enum::IntoPrimitive;
 use serde_repr::{Deserialize_repr, Serialize_repr};
 
 ///This is used to convert a u32 "equipmentSlotTypeHash" to and from a u8 enum to save space.
 #[repr(u8)]
-#[derive(
-    Deserialize_repr, Serialize_repr, Clone, Copy, PartialEq, Eq, FromPrimitive, IntoPrimitive,
-)]
+#[derive(Deserialize_repr, Serialize_repr, Clone, Copy, PartialEq, Eq, IntoPrimitive)]
 pub enum MiniSlot {
-    #[default]
-    Unknown = 0,
     KineticWeapons = 1,
     EnergyWeapons = 2,
     PowerWeapons = 3,
@@ -40,14 +36,14 @@ impl From<MiniSlot> for Option<u32> {
             MiniSlot::Ships => 284967655,
             MiniSlot::ClanBanners => 4292445962,
             MiniSlot::Subclass => 3284755031,
-            MiniSlot::Unknown => return None,
         })
     }
 }
 
-impl From<u32> for MiniSlot {
-    fn from(value: u32) -> Self {
-        match value {
+impl TryFrom<u32> for MiniSlot {
+    type Error = String;
+    fn try_from(value: u32) -> Result<Self, Self::Error> {
+        Ok(match value {
             1498876634 => Self::KineticWeapons,
             2465295065 => Self::EnergyWeapons,
             953998645 => Self::PowerWeapons,
@@ -61,7 +57,7 @@ impl From<u32> for MiniSlot {
             284967655 => Self::Ships,
             4292445962 => Self::ClanBanners,
             3284755031 => Self::Subclass,
-            _ => Self::Unknown,
-        }
+            n => return Err(format!("Unknown Slot Hash: {}\n", n)),
+        })
     }
 }

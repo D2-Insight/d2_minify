@@ -1,13 +1,9 @@
-use num_enum::{FromPrimitive, IntoPrimitive};
+use num_enum::IntoPrimitive;
 use serde_repr::{Deserialize_repr, Serialize_repr};
 
 #[repr(u8)]
-#[derive(
-    Deserialize_repr, Serialize_repr, Clone, Copy, PartialEq, Eq, FromPrimitive, IntoPrimitive,
-)]
+#[derive(Deserialize_repr, Serialize_repr, Clone, Copy, PartialEq, Eq, IntoPrimitive)]
 pub enum MiniWatermark {
-    #[default]
-    Unknown = 0,
     Dawning = 1,
     FOTL = 2,
     GuardianGames = 3,
@@ -38,12 +34,6 @@ pub enum MiniWatermark {
     Seraph = 28,
     LightFall = 29,
     Defiance = 30,
-}
-
-impl Default for MiniWatermark {
-    fn default() -> Self {
-        Self::Unknown
-    }
 }
 
 //Produced URL for icon from season
@@ -81,9 +71,6 @@ impl From<MiniWatermark> for Option<String> {
             MiniWatermark::Seraph => "1a68ada4fb21371c5f2b7e2eae1ebce8",
             MiniWatermark::LightFall => "849de2c6bd5e9b8ced8abe8cca56d724",
             MiniWatermark::Defiance => "e6af18ae79b74e76dab327ec183f8228",
-            MiniWatermark::Unknown => {
-                return None;
-            }
         };
         Some(format!(
             "https://www.bungie.net/common/destiny2_content/icons/{}.png",
@@ -95,23 +82,24 @@ impl From<MiniWatermark> for Option<String> {
 //Expects String to be /common/destiny2_content/icons/ ... .png
 //Comes from API / Rustgie
 //Only for pregen
-impl From<Option<String>> for MiniWatermark {
-    fn from(val: Option<String>) -> Self {
+impl TryFrom<Option<String>> for MiniWatermark {
+    type Error = String;
+    fn try_from(value: Option<String>) -> Result<Self, Self::Error> {
         //Red war exotics come back from api as None
-        let buffer = match val {
+        let value = match value {
             Some(x) => x,
             None => {
-                return MiniWatermark::RedWar;
+                return Ok(MiniWatermark::RedWar);
             }
         };
-        if buffer.len() != 67
-            || &buffer[0..=30] != "/common/destiny2_content/icons/"
-            || &buffer[63..=66] != ".png"
+        if value.len() != 67
+            || &value[0..=30] != "/common/destiny2_content/icons/"
+            || &value[63..=66] != ".png"
         {
-            return MiniWatermark::Unknown;
+            return Err(format!("Invlaid watermark format: {}\n", value));
         }
         //Extracts the needed portion
-        match &buffer[31..=62] {
+        Ok(match &value[31..=62] {
             "d91c738e8179465a165e35f7a249701b" => MiniWatermark::Dawning,
             "215100c99216b9c0bd83b9daa50ace45" => MiniWatermark::FOTL,
             "97c65a76255ef764a9a98f24e50b859d" => MiniWatermark::GuardianGames,
@@ -142,8 +130,8 @@ impl From<Option<String>> for MiniWatermark {
             "1a68ada4fb21371c5f2b7e2eae1ebce8" => MiniWatermark::Seraph,
             "849de2c6bd5e9b8ced8abe8cca56d724" => MiniWatermark::LightFall,
             "e6af18ae79b74e76dab327ec183f8228" => MiniWatermark::Defiance,
-            _ => MiniWatermark::Unknown,
-        }
+            n => return Err(format!("Unknown watermark hash: {}\n", n)),
+        })
     }
 }
 
@@ -176,9 +164,7 @@ impl MiniWatermark {
             Self::Seraph => 19,
             Self::LightFall => 20,
             Self::Defiance => 20,
-            _ => {
-                return None;
-            }
+            _ => return None,
         })
     }
 }
