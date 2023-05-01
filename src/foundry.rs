@@ -39,7 +39,14 @@ impl From<MiniFoundry> for Option<String> {
 
 impl From<String> for MiniFoundry {
     fn from(value: String) -> Self {
-        match value.as_str() {
+        if value.len() != 67
+            || &value[0..=30] != "/common/destiny2_content/icons/"
+            || &value[63..=66] != ".png"
+        {
+            return MiniFoundry::Unknown;
+        }
+
+        match &value[31..=62] {
             "e9fcd73e969a9295c3ab4ee5743893c2" => MiniFoundry::Suros,
             "33679ff3935b6b925f007181f0959d84" => MiniFoundry::Veist,
             "36de329ebf19e58fa0aa90f6828edd57" => MiniFoundry::Omolon,

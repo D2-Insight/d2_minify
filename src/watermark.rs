@@ -2,7 +2,9 @@ use num_enum::{FromPrimitive, IntoPrimitive};
 use serde_repr::{Deserialize_repr, Serialize_repr};
 
 #[repr(u8)]
-#[derive(Deserialize_repr, Serialize_repr, Clone, Copy, PartialEq, Eq, FromPrimitive, IntoPrimitive)]
+#[derive(
+    Deserialize_repr, Serialize_repr, Clone, Copy, PartialEq, Eq, FromPrimitive, IntoPrimitive,
+)]
 pub enum MiniWatermark {
     #[default]
     Unknown = 0,
@@ -102,7 +104,10 @@ impl From<Option<String>> for MiniWatermark {
                 return MiniWatermark::RedWar;
             }
         };
-        if &buffer[0..=30] != "/common/destiny2_content/icons/" || &buffer[63..=66] != ".png" {
+        if buffer.len() != 67
+            || &buffer[0..=30] != "/common/destiny2_content/icons/"
+            || &buffer[63..=66] != ".png"
+        {
             return MiniWatermark::Unknown;
         }
         //Extracts the needed portion
