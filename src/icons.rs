@@ -10,7 +10,7 @@ pub struct MiniIcon {
 //This format is given from api/rustgie.
 impl From<String> for MiniIcon {
     fn from(url: String) -> Self {
-        match url.len() != 66
+        match url.len() != 67
             || &url[0..=30] != "/common/destiny2_content/icons/"
             || &url[63..=66] != ".jpg"
         {
