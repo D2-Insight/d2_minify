@@ -16,6 +16,7 @@ pub enum MiniFoundry {
     TexMechanica = 7,
     FieldForged = 8,
     NoFoundry = 9,
+    Cassoid = 10,
 }
 
 impl From<MiniFoundry> for Option<String> {
@@ -29,6 +30,7 @@ impl From<MiniFoundry> for Option<String> {
             MiniFoundry::Daito => "26c980259713e164aec34002b4c76dca",
             MiniFoundry::TexMechanica => "08d0631148d6e0bdc202c5ecab25f781",
             MiniFoundry::FieldForged => "2b08717bae25bd46dffb7efba66a2371",
+            MiniFoundry::Cassoid => "77de586bb8aed1581da1a73274dfad82",
             MiniFoundry::Unknown | MiniFoundry::NoFoundry => return None,
         };
         Some(format!(
@@ -62,6 +64,7 @@ impl From<Option<String>> for MiniFoundry {
             "26c980259713e164aec34002b4c76dca" => MiniFoundry::Daito,
             "08d0631148d6e0bdc202c5ecab25f781" => MiniFoundry::TexMechanica,
             "2b08717bae25bd46dffb7efba66a2371" => MiniFoundry::FieldForged,
+            "77de586bb8aed1581da1a73274dfad82" => MiniFoundry::Cassoid,
             _ => MiniFoundry::Unknown,
         }
     }
