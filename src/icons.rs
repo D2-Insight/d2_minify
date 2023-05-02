@@ -2,9 +2,7 @@
 ///Example: "https://www.bungie.net/common/destiny2_content/icons/0f584e8a13b2cc4cb60379b1777362e5.jpg"
 ///Doing 2 u64s instead of a u128 for wasm compatability
 #[derive(serde::Deserialize, serde::Serialize, Clone, Copy, PartialEq, Eq, Default)]
-pub struct MiniIcon {
-    icon_array: [u64; 2],
-}
+pub struct MiniIcon(i64, i64);
 
 //Needs to be in format of /common/destiny2_content/icons/ ... .jpg
 //This format is given from api/rustgie.
@@ -18,12 +16,10 @@ impl TryFrom<String> for MiniIcon {
             return Err(format!("Invalid Icon format: {}\n", url));
         }
 
-        Ok(MiniIcon {
-            icon_array: [
-                u64::from_str_radix(&url[31..=46], 16).unwrap(),
-                u64::from_str_radix(&url[47..=62], 16).unwrap(),
-            ],
-        })
+        Ok(MiniIcon(
+            i64::from_str_radix(&url[31..=46], 16).unwrap(),
+            i64::from_str_radix(&url[47..=62], 16).unwrap(),
+        ))
     }
 }
 
@@ -31,7 +27,7 @@ impl From<MiniIcon> for Option<String> {
     fn from(val: MiniIcon) -> Self {
         Some(format!(
             "https://www.bungie.net/common/destiny2_content/icons/{:016x}{:016x}.jpg",
-            val.icon_array[0], val.icon_array[1]
+            val.0, val.1
         ))
     }
 }
