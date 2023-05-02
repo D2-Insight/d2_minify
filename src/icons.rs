@@ -2,7 +2,7 @@
 ///Example: "https://www.bungie.net/common/destiny2_content/icons/0f584e8a13b2cc4cb60379b1777362e5.jpg"
 ///Doing 2 u64s instead of a u128 for wasm compatability
 #[derive(serde::Deserialize, serde::Serialize, Clone, Copy, PartialEq, Eq, Default)]
-pub struct MiniIcon(i64, i64);
+pub struct MiniIcon(u64, u64);
 
 //Needs to be in format of /common/destiny2_content/icons/ ... .jpg
 //This format is given from api/rustgie.
@@ -17,8 +17,8 @@ impl TryFrom<String> for MiniIcon {
         }
 
         Ok(MiniIcon(
-            i64::from_str_radix(&url[31..=46], 16).unwrap(),
-            i64::from_str_radix(&url[47..=62], 16).unwrap(),
+            u64::from_str_radix(&url[31..=46], 16).unwrap(),
+            u64::from_str_radix(&url[47..=62], 16).unwrap(),
         ))
     }
 }
