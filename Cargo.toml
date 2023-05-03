@@ -21,3 +21,10 @@ crate-type = ["cdylib", "rlib"]
 [features]
 serde = ["dep:serde", "dep:serde_repr"]
 pre_gen = ["serde"]
+
+[profile.release]
+lto = true
+opt-level = 3
+panic = "unwind"
+strip = true
+codegen-units = 1

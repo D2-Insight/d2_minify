@@ -8,6 +8,11 @@ extern crate alloc;
 
 use foundry::MiniFoundry;
 use icons::MiniIcon;
+use slot::MiniSlot;
+use stats::MiniStat;
+use wasm_bindgen::prelude::*;
+use watermark::MiniWatermark;
+
 #[cfg(target_arch = "wasm32")]
 use lol_alloc::{AssumeSingleThreaded, FreeListAllocator};
 
@@ -15,11 +20,6 @@ use lol_alloc::{AssumeSingleThreaded, FreeListAllocator};
 #[global_allocator]
 static ALLOCATOR: AssumeSingleThreaded<FreeListAllocator> =
     unsafe { AssumeSingleThreaded::new(FreeListAllocator::new()) };
-
-use slot::MiniSlot;
-use stats::MiniStat;
-use wasm_bindgen::prelude::*;
-use watermark::MiniWatermark;
 
 #[wasm_bindgen(js_name = "getWatermark")]
 pub fn get_watermark(input: u8) -> Result<String, String> {
