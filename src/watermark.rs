@@ -1,10 +1,12 @@
 use num_enum::{IntoPrimitive, TryFromPrimitive};
-use serde_repr::{Deserialize_repr, Serialize_repr};
 
 #[repr(u8)]
-#[derive(
-    Deserialize_repr, Serialize_repr, Clone, Copy, PartialEq, Eq, IntoPrimitive, TryFromPrimitive,
+#[derive(Clone, Copy, PartialEq, Eq, IntoPrimitive, TryFromPrimitive)]
+#[cfg_attr(
+    feature = "serde",
+    derive(serde_repr::Deserialize_repr, serde_repr::Serialize_repr)
 )]
+
 pub enum MiniWatermark {
     Dawning = 1,
     FOTL = 2,
@@ -84,6 +86,7 @@ impl From<MiniWatermark> for String {
 //Expects String to be /common/destiny2_content/icons/ ... .png
 //Comes from API / Rustgie
 //Only for pregen
+#[cfg(feature="pre_gen")]
 impl TryFrom<Option<String>> for MiniWatermark {
     type Error = String;
     fn try_from(value: Option<String>) -> Result<Self, Self::Error> {

@@ -1,11 +1,13 @@
 use num_enum::{IntoPrimitive, TryFromPrimitive};
-use serde_repr::{Deserialize_repr, Serialize_repr};
 
 ///This is used to convert a u32 "equipmentSlotTypeHash" to and from a u8 enum to save space.
 #[repr(u8)]
-#[derive(
-    Deserialize_repr, Serialize_repr, Clone, Copy, PartialEq, Eq, IntoPrimitive, TryFromPrimitive,
+#[derive(Clone, Copy, PartialEq, Eq, IntoPrimitive, TryFromPrimitive)]
+#[cfg_attr(
+    feature = "serde",
+    derive(serde_repr::Deserialize_repr, serde_repr::Serialize_repr)
 )]
+
 pub enum MiniSlot {
     KineticWeapons = 1,
     EnergyWeapons = 2,
@@ -42,6 +44,7 @@ impl From<MiniSlot> for u32 {
     }
 }
 
+#[cfg(feature="pre_gen")]
 impl TryFrom<u32> for MiniSlot {
     type Error = String;
     fn try_from(value: u32) -> Result<Self, Self::Error> {

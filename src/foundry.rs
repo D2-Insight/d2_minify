@@ -1,8 +1,10 @@
 use num_enum::{IntoPrimitive, TryFromPrimitive};
-use serde_repr::{Deserialize_repr, Serialize_repr};
+
 #[repr(u8)]
-#[derive(
-    Deserialize_repr, Serialize_repr, Clone, Copy, PartialEq, Eq, IntoPrimitive, TryFromPrimitive,
+#[derive(Clone, Copy, PartialEq, Eq, IntoPrimitive, TryFromPrimitive)]
+#[cfg_attr(
+    feature = "serde",
+    derive(serde_repr::Deserialize_repr, serde_repr::Serialize_repr)
 )]
 pub enum MiniFoundry {
     NoFoundry = 0,
@@ -38,6 +40,7 @@ impl From<MiniFoundry> for Option<String> {
     }
 }
 
+#[cfg(feature="pre_gen")]
 impl TryFrom<Option<String>> for MiniFoundry {
     type Error = String;
     fn try_from(value: Option<String>) -> Result<Self, Self::Error> {

@@ -2,7 +2,6 @@ pub mod foundry;
 pub mod icons;
 pub mod slot;
 pub mod stats;
-mod tests;
 pub mod watermark;
 
 extern crate alloc;
