@@ -1,7 +1,17 @@
-use num_enum::IntoPrimitive;
+use num_enum::{IntoPrimitive, TryFromPrimitive};
 use serde_repr::{Deserialize_repr, Serialize_repr};
 #[repr(u8)]
-#[derive(Deserialize_repr, Serialize_repr, Clone, Copy, PartialEq, Eq, IntoPrimitive, Hash)]
+#[derive(
+    Deserialize_repr,
+    Serialize_repr,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+    IntoPrimitive,
+    Hash,
+    TryFromPrimitive,
+)]
 pub enum MiniStat {
     NoName = 0,
     Accuracy = 1,

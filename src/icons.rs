@@ -2,7 +2,7 @@
 ///Example: "https://www.bungie.net/common/destiny2_content/icons/0f584e8a13b2cc4cb60379b1777362e5.jpg"
 ///Doing 2 u64s instead of a u128 for wasm compatability
 #[derive(serde::Deserialize, serde::Serialize, Clone, Copy, PartialEq, Eq, Default)]
-pub struct MiniIcon(u64, u64);
+pub struct MiniIcon(pub u64, pub u64);
 
 //Needs to be in format of /common/destiny2_content/icons/ ... .jpg
 //This format is given from api/rustgie.
@@ -23,11 +23,11 @@ impl TryFrom<String> for MiniIcon {
     }
 }
 
-impl From<MiniIcon> for Option<String> {
+impl From<MiniIcon> for String {
     fn from(val: MiniIcon) -> Self {
-        Some(format!(
+        format!(
             "https://www.bungie.net/common/destiny2_content/icons/{:016x}{:016x}.jpg",
             val.0, val.1
-        ))
+        )
     }
 }

@@ -1,7 +1,9 @@
-use num_enum::IntoPrimitive;
+use num_enum::{IntoPrimitive, TryFromPrimitive};
 use serde_repr::{Deserialize_repr, Serialize_repr};
 #[repr(u8)]
-#[derive(Deserialize_repr, Serialize_repr, Clone, Copy, PartialEq, Eq, IntoPrimitive)]
+#[derive(
+    Deserialize_repr, Serialize_repr, Clone, Copy, PartialEq, Eq, IntoPrimitive, TryFromPrimitive,
+)]
 pub enum MiniFoundry {
     NoFoundry = 0,
     Suros = 1,

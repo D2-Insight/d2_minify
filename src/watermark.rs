@@ -1,8 +1,10 @@
-use num_enum::IntoPrimitive;
+use num_enum::{IntoPrimitive, TryFromPrimitive};
 use serde_repr::{Deserialize_repr, Serialize_repr};
 
 #[repr(u8)]
-#[derive(Deserialize_repr, Serialize_repr, Clone, Copy, PartialEq, Eq, IntoPrimitive)]
+#[derive(
+    Deserialize_repr, Serialize_repr, Clone, Copy, PartialEq, Eq, IntoPrimitive, TryFromPrimitive,
+)]
 pub enum MiniWatermark {
     Dawning = 1,
     FOTL = 2,
@@ -38,7 +40,7 @@ pub enum MiniWatermark {
 
 //Produced URL for icon from season
 //This is used during runtime
-impl From<MiniWatermark> for Option<String> {
+impl From<MiniWatermark> for String {
     fn from(val: MiniWatermark) -> Self {
         let buffer = match val {
             MiniWatermark::Dawning => "d91c738e8179465a165e35f7a249701b",
@@ -72,10 +74,10 @@ impl From<MiniWatermark> for Option<String> {
             MiniWatermark::LightFall => "849de2c6bd5e9b8ced8abe8cca56d724",
             MiniWatermark::Defiance => "e6af18ae79b74e76dab327ec183f8228",
         };
-        Some(format!(
+        format!(
             "https://www.bungie.net/common/destiny2_content/icons/{}.png",
             buffer
-        ))
+        )
     }
 }
 
@@ -137,7 +139,7 @@ impl TryFrom<Option<String>> for MiniWatermark {
 
 //Gives season number from enum
 impl MiniWatermark {
-    fn get_season(&self) -> Option<u8> {
+    pub fn get_season(&self) -> Option<u8> {
         Some(match self {
             Self::RedWar => 1,
             Self::CurseOfOsiris => 2,
