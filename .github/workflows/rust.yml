@@ -22,5 +22,11 @@ jobs:
       uses: Swatinem/rust-cache@v2.2.1
     - name: Build
       run: cargo build --verbose
+    - name: Build pregen
+      run: cargo build --features pre_gen
+    - name: Install Wasm-Pack
+      run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+    - name: Build Wasm target
+      run: wasm-pack build
     - name: Test
       run: cargo test
