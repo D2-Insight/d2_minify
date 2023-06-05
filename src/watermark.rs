@@ -38,6 +38,8 @@ pub enum MiniWatermark {
     Seraph = 28,
     LightFall = 29,
     Defiance = 30,
+    TheDeep = 31,
+    NewForsaken = 32,
 }
 
 //Produced URL for icon from season
@@ -75,6 +77,8 @@ impl From<MiniWatermark> for String {
             MiniWatermark::Seraph => "1a68ada4fb21371c5f2b7e2eae1ebce8",
             MiniWatermark::LightFall => "849de2c6bd5e9b8ced8abe8cca56d724",
             MiniWatermark::Defiance => "e6af18ae79b74e76dab327ec183f8228",
+            MiniWatermark::TheDeep => "6026e9d64e8c2b19f302dafb0286897b",
+            MiniWatermark::NewForsaken => "1b6c8b94cec61ea42edb1e2cb6b45a31",
         };
         format!(
             "https://www.bungie.net/common/destiny2_content/icons/{}.png",
@@ -86,7 +90,7 @@ impl From<MiniWatermark> for String {
 //Expects String to be /common/destiny2_content/icons/ ... .png
 //Comes from API / Rustgie
 //Only for pregen
-#[cfg(feature="pre_gen")]
+#[cfg(feature = "pre_gen")]
 impl TryFrom<Option<String>> for MiniWatermark {
     type Error = String;
     fn try_from(value: Option<String>) -> Result<Self, Self::Error> {
@@ -114,6 +118,7 @@ impl TryFrom<Option<String>> for MiniWatermark {
             "591f14483308beaad3278c3cd397e284" => MiniWatermark::CurseOfOsiris,
             "e10338777d1d8633e073846e613a1c1f" => MiniWatermark::Warmind,
             "0669efb55951e8bc9e99f3989eacc861" => MiniWatermark::Forsaken,
+            "1b6c8b94cec61ea42edb1e2cb6b45a31" => MiniWatermark::NewForsaken,
             "bbddbe06ab72b61e708afc4fdbe15d95" => MiniWatermark::Forge,
             "f9110e633634d112cff72a67159e3b12" => MiniWatermark::Drifter,
             "785e5a64153cabd5637d68dcccb7fea6" => MiniWatermark::Opulence,
@@ -135,6 +140,7 @@ impl TryFrom<Option<String>> for MiniWatermark {
             "1a68ada4fb21371c5f2b7e2eae1ebce8" => MiniWatermark::Seraph,
             "849de2c6bd5e9b8ced8abe8cca56d724" => MiniWatermark::LightFall,
             "e6af18ae79b74e76dab327ec183f8228" => MiniWatermark::Defiance,
+            "6026e9d64e8c2b19f302dafb0286897b" => MiniWatermark::TheDeep,
             n => return Err(format!("Unknown watermark hash: {}\n", n)),
         })
     }
@@ -169,6 +175,7 @@ impl MiniWatermark {
             Self::Seraph => 19,
             Self::LightFall => 20,
             Self::Defiance => 20,
+            Self::TheDeep | Self::NewForsaken => 21,
             _ => return None,
         })
     }
