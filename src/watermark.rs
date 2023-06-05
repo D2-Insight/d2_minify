@@ -40,6 +40,7 @@ pub enum MiniWatermark {
     Defiance = 30,
     TheDeep = 31,
     NewForsaken = 32,
+    NewSOTP = 33,
 }
 
 //Produced URL for icon from season
@@ -79,6 +80,7 @@ impl From<MiniWatermark> for String {
             MiniWatermark::Defiance => "e6af18ae79b74e76dab327ec183f8228",
             MiniWatermark::TheDeep => "6026e9d64e8c2b19f302dafb0286897b",
             MiniWatermark::NewForsaken => "1b6c8b94cec61ea42edb1e2cb6b45a31",
+            MiniWatermark::NewSOTP => "448f071a7637fcefb2fccf76902dcf7d",
         };
         format!(
             "https://www.bungie.net/common/destiny2_content/icons/{}.png",
@@ -141,6 +143,7 @@ impl TryFrom<Option<String>> for MiniWatermark {
             "849de2c6bd5e9b8ced8abe8cca56d724" => MiniWatermark::LightFall,
             "e6af18ae79b74e76dab327ec183f8228" => MiniWatermark::Defiance,
             "6026e9d64e8c2b19f302dafb0286897b" => MiniWatermark::TheDeep,
+            "448f071a7637fcefb2fccf76902dcf7d" => MiniWatermark::NewSOTP,
             n => return Err(format!("Unknown watermark hash: {}\n", n)),
         })
     }
