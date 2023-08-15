@@ -17,22 +17,20 @@ pub enum MiniFoundry {
     TexMechanica = 7,
     FieldForged = 8,
     Cassoid = 9,
-    NewHakke = 10,
 }
 
 impl From<MiniFoundry> for Option<String> {
     fn from(value: MiniFoundry) -> Self {
         let buffer = match value {
-            MiniFoundry::Suros => "e9fcd73e969a9295c3ab4ee5743893c2",
-            MiniFoundry::Veist => "33679ff3935b6b925f007181f0959d84",
-            MiniFoundry::Omolon => "36de329ebf19e58fa0aa90f6828edd57",
-            MiniFoundry::Hakke => "8516a3a35697546fc0c8e8b4ab83aae6",
-            MiniFoundry::BlackArmory => "d1f7db758d2da8756c5d302b13b156ab",
-            MiniFoundry::Daito => "26c980259713e164aec34002b4c76dca",
-            MiniFoundry::TexMechanica => "08d0631148d6e0bdc202c5ecab25f781",
-            MiniFoundry::FieldForged => "2b08717bae25bd46dffb7efba66a2371",
-            MiniFoundry::Cassoid => "77de586bb8aed1581da1a73274dfad82",
-            MiniFoundry::NewHakke => "b5db41f5d5cc0b8a9825da3592312593",
+            MiniFoundry::Suros => "56920a380f4f328b65cd4940d57ad86d",
+            MiniFoundry::Veist => "9cb266173ab772fa689b72bd365c28df",
+            MiniFoundry::Omolon => "d7596444c338aa5339234cd017810946",
+            MiniFoundry::Hakke => "b5db41f5d5cc0b8a9825da3592312593",
+            MiniFoundry::BlackArmory => "0f06c268d1f1080cea32a0de86f18c00",
+            MiniFoundry::Daito => "de7406450cbc1f0cd4a5c31a2b321a51",
+            MiniFoundry::TexMechanica => "ed8c4feb3dd97c8685e102cf565f135c",
+            MiniFoundry::FieldForged => "cdc43a4cee2c550fa340516e1fd00d15",
+            MiniFoundry::Cassoid => "85600f3ad441a2511b00c2af1c2003ce",
             MiniFoundry::NoFoundry => return None,
         };
         Some(format!(
@@ -42,7 +40,7 @@ impl From<MiniFoundry> for Option<String> {
     }
 }
 
-#[cfg(feature="pre_gen")]
+#[cfg(feature = "pre_gen")]
 impl TryFrom<Option<String>> for MiniFoundry {
     type Error = String;
     fn try_from(value: Option<String>) -> Result<Self, Self::Error> {
@@ -61,16 +59,15 @@ impl TryFrom<Option<String>> for MiniFoundry {
         }
 
         Ok(match &value[31..=62] {
-            "e9fcd73e969a9295c3ab4ee5743893c2" => MiniFoundry::Suros,
-            "33679ff3935b6b925f007181f0959d84" => MiniFoundry::Veist,
-            "36de329ebf19e58fa0aa90f6828edd57" => MiniFoundry::Omolon,
-            "8516a3a35697546fc0c8e8b4ab83aae6" => MiniFoundry::Hakke,
-            "d1f7db758d2da8756c5d302b13b156ab" => MiniFoundry::BlackArmory,
-            "26c980259713e164aec34002b4c76dca" => MiniFoundry::Daito,
-            "08d0631148d6e0bdc202c5ecab25f781" => MiniFoundry::TexMechanica,
-            "2b08717bae25bd46dffb7efba66a2371" => MiniFoundry::FieldForged,
-            "77de586bb8aed1581da1a73274dfad82" => MiniFoundry::Cassoid,
-            "b5db41f5d5cc0b8a9825da3592312593" => MiniFoundry::NewHakke,
+            "56920a380f4f328b65cd4940d57ad86d" => MiniFoundry::Suros,
+            "9cb266173ab772fa689b72bd365c28df" => MiniFoundry::Veist,
+            "d7596444c338aa5339234cd017810946" => MiniFoundry::Omolon,
+            "b5db41f5d5cc0b8a9825da3592312593" => MiniFoundry::Hakke,
+            "0f06c268d1f1080cea32a0de86f18c00" => MiniFoundry::BlackArmory,
+            "de7406450cbc1f0cd4a5c31a2b321a51" => MiniFoundry::Daito,
+            "ed8c4feb3dd97c8685e102cf565f135c" => MiniFoundry::TexMechanica,
+            "cdc43a4cee2c550fa340516e1fd00d15" => MiniFoundry::FieldForged,
+            "85600f3ad441a2511b00c2af1c2003ce" => MiniFoundry::Cassoid,
             n => return Err(format!("Foundry unknown: {}\n", n)),
         })
     }
